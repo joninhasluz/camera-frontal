@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abrir Câmera Frontal</title>
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+        }
+        video {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+        #msg {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="msg">Solicitando acesso à câmera frontal...</div>
+    <video id="cam" autoplay playsinline></video>
+
+    <script>
+        const video = document.getElementById("cam");
+        const msg = document.getElementById("msg");
+
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" }
+        })
+        .then(stream => {
+            video.srcObject = stream;
+            msg.style.display = "none";
+        })
+        .catch(err => {
+            msg.innerText = "Permissão negada ou erro ao acessar a câmera: " + err;
+        });
+    </script>
+</body>
+</html>
